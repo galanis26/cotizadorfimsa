@@ -12,6 +12,17 @@ LOGO_PATH = os.path.join(os.path.dirname(__file__), "assets", "logo fimsa.png")
 EMPRESA = "FIMSA - Ferretería Industrial de Montemorelos"
 
 
+MESES_ES = {
+    "January": "enero", "February": "febrero", "March": "marzo", "April": "abril",
+    "May": "mayo", "June": "junio", "July": "julio", "August": "agosto",
+    "September": "septiembre", "October": "octubre", "November": "noviembre", "December": "diciembre",
+}
+
+
+def _fecha_es(dt: datetime) -> str:
+    return f"{dt.day} de {MESES_ES[dt.strftime('%B')]} de {dt.year}"
+
+
 def _fmt(n: float) -> str:
     return f"${n:,.2f}"
 
@@ -159,7 +170,7 @@ def _crear_grafica_roi(inversion: float, ahorro_anual: float, roi_anios: float) 
     if mes_roi <= max(meses):
         ax.axvline(x=mes_roi, color="#27AE60", linestyle=":", linewidth=1)
         ax.annotate(
-            f"ROI: {mes_roi} meses\n({roi_anios:.1f} anios)",
+            f"ROI: {mes_roi} meses\n({roi_anios:.1f} años)",
             xy=(mes_roi, inversion), xytext=(mes_roi + 6, inversion * 0.65),
             arrowprops=dict(arrowstyle="->", color="#27AE60"),
             fontsize=9, color="#27AE60", fontweight="bold",
@@ -181,7 +192,7 @@ def _crear_grafica_roi(inversion: float, ahorro_anual: float, roi_anios: float) 
 
 
 def _crear_grafica_ahorro(ahorro_anual: float) -> bytes:
-    categorias = ["Mensual", "Anual", "5 Anios", "10 Anios", "25 Anios"]
+    categorias = ["Mensual", "Anual", "5 Años", "10 Años", "25 Años"]
     valores = [ahorro_anual / 12, ahorro_anual, ahorro_anual * 5, ahorro_anual * 10, ahorro_anual * 25]
 
     fig, ax = plt.subplots(figsize=(7, 3))
@@ -219,7 +230,7 @@ def generar_pdf_cliente(
 
     # --- Página 1: Descripción y desglose ---
     pdf.set_font("Helvetica", "", 10)
-    pdf.cell(0, 6, f"Fecha: {datetime.now().strftime('%d de %B de %Y')}", align="R", new_x="LMARGIN", new_y="NEXT")
+    pdf.cell(0, 6, f"Fecha: {_safe(_fecha_es(datetime.now()))}", align="R", new_x="LMARGIN", new_y="NEXT")
     if nombre_cliente:
         pdf.set_font("Helvetica", "B", 10)
         pdf.cell(0, 6, f"Cliente: {nombre_cliente}", new_x="LMARGIN", new_y="NEXT")
@@ -240,10 +251,10 @@ def generar_pdf_cliente(
         pdf.multi_cell(0, 5, "Instalacion de sistema de paneles solares para generacion de energia limpia y reduccion en el costo del servicio electrico.")
     pdf.ln(3)
 
-    pdf.multi_cell(0, 5, (
-        "En GM Ferretera de Equipos le ofrecemos soluciones integrales en energia solar. "
-        "Nuestro servicio incluye el suministro de paneles de alta eficiencia, materiales de instalacion "
-        "certificados y mano de obra especializada con garantia."
+    pdf.multi_cell(0, 5, _safe(
+        f"En {EMPRESA} le ofrecemos soluciones integrales en energía solar. "
+        "Nuestro servicio incluye el suministro de paneles de alta eficiencia, materiales de instalación "
+        "certificados y mano de obra especializada con garantía."
     ))
     pdf.ln(5)
 
@@ -307,7 +318,7 @@ def generar_pdf_cliente(
         pdf.ln(3)
         pdf.set_font("Helvetica", "B", 12)
         pdf.set_text_color(39, 174, 96)
-        pdf.cell(0, 8, f"Tiempo estimado de recuperacion: {roi_anios:.1f} anios ({roi_anios*12:.0f} meses)", new_x="LMARGIN", new_y="NEXT")
+        pdf.cell(0, 8, f"Tiempo estimado de recuperacion: {roi_anios:.1f} años ({roi_anios*12:.0f} meses)", new_x="LMARGIN", new_y="NEXT")
         pdf.set_text_color(0)
     pdf.ln(5)
 
@@ -341,7 +352,7 @@ def generar_pdf_cliente(
     pdf.set_font("Helvetica", "", 10)
     beneficios = [
         "Reduccion de hasta 85% en su recibo de luz.",
-        "Vida util de los paneles de 25+ anios con garantia.",
+        "Vida útil de los paneles de 25+ años con garantia.",
         "Incremento en el valor de su propiedad.",
         "Contribucion al medio ambiente con energia limpia.",
         "Proteccion contra aumentos futuros en tarifas electricas.",
