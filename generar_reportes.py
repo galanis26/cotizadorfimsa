@@ -8,8 +8,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from fpdf import FPDF
 
-LOGO_PATH = os.path.join(os.path.dirname(__file__), "assets", "logo.jpg")
-EMPRESA = "GM Ferretera de Equipos S.A de C.V."
+LOGO_PATH = os.path.join(os.path.dirname(__file__), "assets", "logo fimsa.png")
+EMPRESA = "FIMSA - Ferretería Industrial de Montemorelos"
 
 
 def _fmt(n: float) -> str:
@@ -69,7 +69,7 @@ def generar_pdf_interno(
     # Tabla de items si hay
     if items_paneles:
         pdf.set_font("Helvetica", "B", 10)
-        pdf.set_fill_color(41, 65, 122)
+        pdf.set_fill_color(27, 42, 107)
         pdf.set_text_color(255)
         pdf.cell(0, 7, "  Items Detectados del Proveedor", fill=True, new_x="LMARGIN", new_y="NEXT")
         pdf.set_text_color(0)
@@ -110,7 +110,7 @@ def generar_pdf_interno(
             pdf.set_fill_color(39, 174, 96)
             pdf.set_text_color(255)
         elif bold:
-            pdf.set_fill_color(41, 65, 122)
+            pdf.set_fill_color(27, 42, 107)
             pdf.set_text_color(255)
         else:
             pdf.set_fill_color(245, 245, 245)
@@ -127,13 +127,17 @@ def generar_pdf_interno(
 class PDFCliente(FPDF):
     def header(self):
         if os.path.exists(LOGO_PATH):
-            self.image(LOGO_PATH, x=10, y=8, w=40)
-        self.set_font("Helvetica", "B", 16)
-        self.cell(0, 10, EMPRESA, align="C", new_x="LMARGIN", new_y="NEXT")
-        self.set_font("Helvetica", "", 10)
-        self.cell(0, 5, "Soluciones en Energia Solar", align="C", new_x="LMARGIN", new_y="NEXT")
-        self.line(10, 28, 200, 28)
-        self.ln(10)
+            self.image(LOGO_PATH, x=10, y=6, w=42)
+        # Texto centrado en el espacio a la derecha del logo (x=55 en adelante)
+        self.set_xy(55, 8)
+        self.set_font("Helvetica", "B", 14)
+        self.cell(145, 8, EMPRESA, align="C", new_x="LMARGIN", new_y="NEXT")
+        self.set_x(55)
+        self.set_font("Helvetica", "", 9)
+        self.cell(145, 5, "Soluciones en Energia Solar", align="C", new_x="LMARGIN", new_y="NEXT")
+        self.ln(5)
+        self.line(10, self.get_y(), 200, self.get_y())
+        self.ln(4)
 
     def footer(self):
         self.set_y(-15)
@@ -222,7 +226,7 @@ def generar_pdf_cliente(
     pdf.ln(5)
 
     pdf.set_font("Helvetica", "B", 14)
-    pdf.set_text_color(41, 65, 122)
+    pdf.set_text_color(27, 42, 107)
     pdf.cell(0, 10, "COTIZACION DE PROYECTO SOLAR", align="C", new_x="LMARGIN", new_y="NEXT")
     pdf.set_text_color(0)
     pdf.ln(5)
@@ -249,7 +253,7 @@ def generar_pdf_cliente(
     pdf.ln(2)
 
     pdf.set_font("Helvetica", "B", 9)
-    pdf.set_fill_color(41, 65, 122)
+    pdf.set_fill_color(27, 42, 107)
     pdf.set_text_color(255)
     pdf.cell(95, 7, "  Concepto", border=1, fill=True)
     pdf.cell(90, 7, "Monto", border=1, align="C", fill=True, new_x="LMARGIN", new_y="NEXT")
@@ -266,7 +270,7 @@ def generar_pdf_cliente(
         pdf.cell(90, 7, _fmt(val), border=1, align="R", new_x="LMARGIN", new_y="NEXT")
 
     pdf.set_font("Helvetica", "B", 10)
-    pdf.set_fill_color(41, 65, 122)
+    pdf.set_fill_color(27, 42, 107)
     pdf.set_text_color(255)
     pdf.cell(95, 8, "  INVERSION TOTAL", border=1, fill=True)
     pdf.cell(90, 8, _fmt(precio_final), border=1, align="R", fill=True, new_x="LMARGIN", new_y="NEXT")
@@ -275,7 +279,7 @@ def generar_pdf_cliente(
     # --- Página 2: ROI ---
     pdf.add_page()
     pdf.set_font("Helvetica", "B", 13)
-    pdf.set_text_color(41, 65, 122)
+    pdf.set_text_color(27, 42, 107)
     pdf.cell(0, 10, "ANALISIS DE AHORRO Y RETORNO DE INVERSION", align="C", new_x="LMARGIN", new_y="NEXT")
     pdf.set_text_color(0)
     pdf.ln(3)
@@ -318,7 +322,7 @@ def generar_pdf_cliente(
     # --- Página 3: Ahorro proyectado ---
     pdf.add_page()
     pdf.set_font("Helvetica", "B", 13)
-    pdf.set_text_color(41, 65, 122)
+    pdf.set_text_color(27, 42, 107)
     pdf.cell(0, 10, "PROYECCION DE AHORRO A LARGO PLAZO", align="C", new_x="LMARGIN", new_y="NEXT")
     pdf.set_text_color(0)
     pdf.ln(5)

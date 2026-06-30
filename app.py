@@ -2,10 +2,10 @@ import streamlit as st
 from pdf_parser import extraer_total_pdf, extraer_items_pdf, extraer_consumo_recibo
 from generar_reportes import generar_pdf_interno, generar_pdf_cliente
 
-st.set_page_config(page_title="GM - Cotizador Solar", page_icon="☀️", layout="wide")
+st.set_page_config(page_title="FIMSA - Cotizador Solar", page_icon="☀️", layout="wide")
 
 st.title("☀️ Cotizador de Paneles Solares")
-st.caption("GM Ferretera de Equipos S.A de C.V.")
+st.caption("FIMSA - Ferretería Industrial de Montemorelos")
 st.divider()
 
 # --- Inputs ---
